@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "bandcamp-downloader"
+version = "0.1.0"
+description = "Download a bandcamp artists' discography" 
+authors = [
+    "Emanuel Johnson Godin <emanueljohnsongodin@gmail.com>"
+]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11.0"
+beautifulsoup4 = "^4.12.2"
+grequests = "^0.7.0"
+aioimaplib = "^1.0.1"
+playwright = "1.34.0"
+aiohttp = {version="^3.8.4", extras=["speedups"]}
+aiofile = "3.8.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
