@@ -1,0 +1,53 @@
+Bandcamp artist downloader
+--------------------------
+
+Download all free releases of a Bandcamp artist. 
+
+!!!!IMPORTANT!!!!
+- ALL EMAIL IN YOUR INBOX WILL BE DELETED WHEN RUNNING THIS PROGRAM
+TO WIPE OLD DOWNLOAD RECEIPTS. Create a new mail account if you do not wish
+for all your old mails in your inbox to disappear. I recommend self-hosting Dovecot.
+
+- This is proof-of-concept software.
+I am not responsible for unwise use of this software.
+
+No further notices will be given.
+!!!!IMPORTANT!!!!
+
+
+Requirements
+------------
+- email (for getting download receipts) 
+  (^ PROGRAM WILL WIPE OLD EMAILS (read notice above)
+- Python >= 3.11 (might work on earlier versions, but not tested)
+- Python Poetry
+
+
+Installation
+------------
+Install deps through Poetry. 
+Installation by other means is possible but not supported.
+
+
+Quickstart
+----------
+1. Find the artist subdomain example: 
+   example: haircutsformen.bandcamp.com -> haircutsformen
+2. Write your password to a file, here referred to '/run/secrets/mailpass'
+3. Finally, run the command:
+   python src/main.py haircutsformen johndoe@example.com /run/secrets/mailpass
+4. Done.
+
+
+Gotchas
+-------
+- Your mail server might require custom connection configration.
+  Should be easy to hack it in yourself if needed.
+  Works out-of-the-box with Dovecot, which is what the author recommends
+- Excessive usage can and will get you ratelimited.
+- If the software slows your computer to a crawl, it's probably using too many
+  unzipping workers, as that is the CPU-heavy part of the process. 
+  Lower it with the --max-unzip-workers option.
+
+
+
