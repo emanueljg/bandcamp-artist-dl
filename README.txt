@@ -4,6 +4,7 @@ Bandcamp artist downloader
 Download all free releases of a Bandcamp artist. 
 
 !!!!IMPORTANT!!!!
+-----------------
 - ALL EMAIL IN YOUR INBOX WILL BE DELETED WHEN RUNNING THIS PROGRAM
 TO WIPE OLD DOWNLOAD RECEIPTS. Create a new mail account if you do not wish
 for all your old mails in your inbox to disappear. I recommend self-hosting Dovecot.
@@ -12,7 +13,6 @@ for all your old mails in your inbox to disappear. I recommend self-hosting Dove
 I am not responsible for unwise use of this software.
 
 No further notices will be given.
-!!!!IMPORTANT!!!!
 
 
 Requirements
