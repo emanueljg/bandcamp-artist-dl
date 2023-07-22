@@ -10,7 +10,6 @@ I am not responsible for unwise use of this program nor the underlying library.
 Requirements
 ------------
 - email (for getting download receipts) 
-  (^ PROGRAM WILL WIPE OLD EMAILS (read notice above)
 - Python >= 3.11 (might work on earlier versions, but not tested)
 - Python Poetry
 
