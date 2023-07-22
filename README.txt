@@ -44,7 +44,7 @@ Gotchas
 
 License
 -------
-This software is licensed under the GNU AGPLv3. See LICENSE for more information. 
+This software is licensed under the GNU AGPLv3. See LICENSE.txt for more information. 
 
 © 2023 Emanuel Johnson Godin
 
