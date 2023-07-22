@@ -7,6 +7,8 @@ from concurrent.futures import ProcessPoolExecutor
 from pprint import pprint
 from pathlib import Path
 import itertools
+import click
+import sys
 
 import lib
 
@@ -75,6 +77,15 @@ parser.add_argument(
     help='Optional override of the email user. Defaults to the email address.'
 )
 parser.add_argument(
+    '--mailbox',
+    help='What mailbox to use. Defaults to INBOX.',
+    default='INBOX',
+)
+parser.add_argument(
+    '--force', '-F',
+    help="Bypass deletion confirmation of emailed receipts. Useful in scripting environments."
+)
+parser.add_argument(
     '--verbose', '-v',
     help="Increase verbosity of program output",
     action='count',
@@ -93,11 +104,18 @@ async def main():
     mail_wrapper = lib.MailWrapper(
         email_address=vars(args)['email-address'],
         password_file=vars(args)['password-file'],
+        mailbox=args.mailbox,
         host=args.override_email_host,
         user=args.override_email_user,
+        clear_at_aenter=False
     )
 
     async with mail_wrapper as mail, lib.create_session() as sesh:
+        try:
+            await mail.clear_inbox(request_confirmation=(not args.force))
+        except click.exceptions.Abort:
+            print('Canceled.')
+            sys.exit(1)
         with ProcessPoolExecutor() as pool:
             artist.refresh_releases(mail.email_address)
             workers = (
