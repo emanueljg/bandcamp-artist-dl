@@ -3,16 +3,8 @@ Bandcamp artist downloader
 
 Download all free releases of a Bandcamp artist. 
 
-!!!!IMPORTANT!!!!
------------------
-- ALL EMAIL IN YOUR INBOX WILL BE DELETED WHEN RUNNING THIS PROGRAM
-TO WIPE OLD DOWNLOAD RECEIPTS. Create a new mail account if you do not wish
-for all your old mails in your inbox to disappear. I recommend self-hosting Dovecot.
-
-- This is proof-of-concept software.
-I am not responsible for unwise use of this software.
-
-No further notices will be given.
+This is proof-of-concept software for educational purposes.
+I am not responsible for unwise use of this program nor the underlying library.
 
 
 Requirements
@@ -43,11 +35,18 @@ Gotchas
 -------
 - Your mail server might require custom connection configration.
   Should be easy to hack it in yourself if needed.
-  Works out-of-the-box with Dovecot, which is what the author recommends
+  Works out-of-the-box with Dovecot, which is what the author recommends.
 - Excessive usage can and will get you ratelimited.
 - If the software slows your computer to a crawl, it's probably using too many
   unzipping workers, as that is the CPU-heavy part of the process. 
   Lower it with the --max-unzip-workers option.
+
+
+License
+-------
+This software is licensed under the GNU AGPLv3. See LICENSE for more information. 
+
+© 2023 Emanuel Johnson Godin
 
 
 
