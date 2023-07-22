@@ -22,8 +22,8 @@ Installation by other means is possible but not supported.
 
 Quickstart
 ----------
-1. Find the artist subdomain example: 
-   example: haircutsformen.bandcamp.com -> haircutsformen
+1. Find the artist subdomain. 
+   (example: haircutsformen.bandcamp.com -> haircutsformen)
 2. Write your password to a file, here referred to '/run/secrets/mailpass'
 3. Finally, run the command:
    python src/main.py haircutsformen johndoe@example.com /run/secrets/mailpass
