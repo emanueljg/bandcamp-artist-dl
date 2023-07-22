@@ -15,6 +15,8 @@ import shutil
 from zipfile import ZipFile
 from collections import namedtuple
 from pprint import pprint
+import click
+import textwrap
 
 from utils import Link, RatelimitException
 
@@ -179,6 +181,7 @@ class MailWrapper:
         self,
         email_address,
         password_file,
+        mailbox,
         user=None,
         host=None,
         clear_at_aenter=True,
@@ -197,8 +200,8 @@ class MailWrapper:
         if not host:
             inferred_host = True
             self.host = host or self.email_address.split('@')[1]
-
         self.mail = aioimaplib.IMAP4_SSL(host=self.host)
+        self.mailbox = mailbox
         self.password_file = password_file
         self.clear_at_aenter = clear_at_aenter
         self.clear_at_aexit = clear_at_aexit
@@ -214,11 +217,19 @@ class MailWrapper:
             iprint(f'{self.password_file = }')
             iprint(f'{self.password = }')
 
-    async def clear_inbox(self):
+    async def clear_inbox(self, request_confirmation=False):
         if VERBOSITY:
             print('clearing inbox...')
-        messages = await self.mail.search('ALL')
-        for num in messages[1][0].decode('utf-8').split():
+        messages = await self.mail.search('SUBJECT "Your download from"')
+        receipts = messages[1][0].decode('utf-8').split()
+        if request_confirmation and receipts:
+            click.confirm(
+                f'{len(receipts)} old Bandcamp receipts in mailbox {self.mailbox} '
+                '(emails with the subject "Your download from...") will be deleted. '
+                'Is that okay?'
+            , default=False, abort=True)
+        for num in receipts:
+            vvprint(f'deleting old download receipt #{num}...')
             await self.mail.store(num, '+FLAGS', '\\Deleted')
         await self.mail.expunge()
 
@@ -232,7 +243,7 @@ class MailWrapper:
 
     async def logout(self):
         vprint('logging out...')
-        return self.mail.logout()
+        return await self.mail.logout()
 
     async def __aenter__(self):
         vvprint('waiting for mail hello...')
@@ -241,14 +252,14 @@ class MailWrapper:
         vprint('logging in to mail...')
         await self.mail.login(self.user, self.password)
         vprint('logged in!') or vvprint(f'logged in! ({self.user}, {self.password})')
-        await self.mail.select(mailbox='INBOX')
+        await self.mail.select(mailbox=self.mailbox)
         if self.clear_at_aenter:
             await self.clear_inbox()
-        await self.idle_start()
         return self
 
     async def __aexit__(self, exc_type, exc, tb):
-        self.idle_done()
+        if self.mail.has_pending_idle():
+            self.idle_done()
         if self.clear_at_aexit:
             await self.clear_inbox()
         await self.logout()
@@ -257,6 +268,7 @@ class MailWrapper:
         last_uid = 0
         while (emails_left := next(copy(artist.emails_left))) > 0:
             vprint(f'{emails_left} emails left')
+            await self.idle_start()
             msg = await self.mail.wait_server_push()
             vvprint(f'IMAP: {msg}')
             self.idle_done()
@@ -276,7 +288,6 @@ class MailWrapper:
                         vprint(f'download page GOT: {download_page}')
                         yield download_page
                 last_uid = current_uid
-            await self.idle_start()
         vprint('no emails left.')
 
 
