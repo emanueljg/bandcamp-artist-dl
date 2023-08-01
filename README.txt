@@ -10,7 +10,6 @@ I am not responsible for unwise use of this program nor the underlying library.
 Requirements
 ------------
 - email (for getting download receipts) 
-  (^ PROGRAM WILL WIPE OLD EMAILS (read notice above)
 - Python >= 3.11 (might work on earlier versions, but not tested)
 - Python Poetry
 
@@ -23,8 +22,8 @@ Installation by other means is possible but not supported.
 
 Quickstart
 ----------
-1. Find the artist subdomain example: 
-   example: haircutsformen.bandcamp.com -> haircutsformen
+1. Find the artist subdomain. 
+   (example: haircutsformen.bandcamp.com -> haircutsformen)
 2. Write your password to a file, here referred to '/run/secrets/mailpass'
 3. Finally, run the command:
    python src/main.py haircutsformen johndoe@example.com /run/secrets/mailpass
